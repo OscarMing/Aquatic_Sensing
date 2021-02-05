@@ -1,4 +1,4 @@
-### Greenhouse Environmental Sensing with Sweet Pepper via Modbus ###
+### Aquatic_Sensing via MQTT ###
 #### create_table.py ####
 >1. Create Tables by using this Script.
 >2. Create an Empty Database Schema, Database support MySQL or MariaDB.
