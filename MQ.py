@@ -11,6 +11,8 @@ class myMQ():
         self.flag = False
         self.Info = C_info
         self.disc_flag = True
+        self.reconn_flag = False
+        self.Topics = []
         
     @property
     def Info(self):
@@ -23,7 +25,14 @@ class myMQ():
         
     def on_connect(self,client, userdata, flags, rc):
         if rc==0:
-            print("Connection OK")
+            if self.reconn_flag:
+                for tpc in self.Topics:
+                    self.client.subscribe(tpc)
+                self.reconn_flag=False
+                print("Connection OK")
+                print("Subscribe OK")
+            else:
+                print("Connection OK")
         else:
             print("Not Connect")     
         print("Connected with result code "+str(rc))
@@ -54,6 +63,7 @@ class myMQ():
     def reconnection(self):
         if self.disc_flag:
             self.client.reconnect()
+            self.reconn_flag = True
         else:
             pass
     
@@ -78,6 +88,10 @@ class myMQ():
     def subscribeTopics(self,*topics):
         for topic in topics:
             self.client.subscribe(topic)
+            if topic not in self.Topics:
+                self.Topics.append(topic)
+            else:
+                pass
 
 
     def publishDataString(self,publishTopic,DataString):
